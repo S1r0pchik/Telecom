@@ -41,7 +41,6 @@ public:
     void Solve(int argc, char *argv[]);
 
 private:
-private:
     void ReadInput();
     void ReadHeader();
     void ReadTimeMatrix();

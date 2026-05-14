@@ -1,0 +1,90 @@
+---
+BasedOnStyle: LLVM
+Language: Cpp
+
+# ====================== Основные настройки ======================
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false
+PointerAlignment: Right
+ReferenceAlignment: Right
+
+# ====================== Стиль скобок (K&R) ======================
+BreakBeforeBraces: Attach
+BraceWrapping:
+  AfterControlStatement: MultiLine
+  BeforeElse: false
+  BeforeCatch: false
+  BeforeWhile: false
+  IndentBraces: false
+
+# ====================== Короткие конструкции ======================
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: None
+AllowShortLambdasOnASingleLine: None
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: true
+
+# ====================== Выравнивание и переносы ======================
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: Align
+AlignOperands: AlignAfterOperator
+AlignConsecutiveAssignments: false
+AlignConsecutiveBitFields: true
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+
+# ====================== Пробелы ======================
+SpaceBeforeParens: ControlStatements
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeCpp11BracedList: false
+SpaceInEmptyParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInAngles: false
+SpaceAfterTemplateKeyword: true
+SpaceAfterLogicalNot: false
+
+# ====================== Отступы ======================
+AccessModifierOffset: -4
+IndentAccessModifiers: false
+IndentCaseLabels: false
+IndentCaseBlocks: false
+IndentGotoLabels: false
+IndentExternBlock: AfterExternBlock
+IndentRequiresClause: true
+
+# ====================== C++11 / C++20 ======================
+Cpp11BracedListStyle: true
+Standard: Latest
+
+# ====================== Препроцессор ======================
+IndentPPDirectives: AfterHash
+
+# ====================== Инклюды ======================
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^"(.*)"$'
+    Priority: 1
+  - Regex: '^<(.*)>$'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
+
+# ====================== Комментарии ======================
+ReflowComments: true
+
+# ====================== Дополнительно ======================
+BreakBeforeTernaryOperators: false
+BreakConstructorInitializers: AfterColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+AllowAllParametersOfDeclarationOnNextLine: true
+AlwaysBreakTemplateDeclarations: MultiLine

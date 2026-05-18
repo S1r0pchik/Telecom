@@ -135,14 +135,16 @@ void Processor::InitMachines() {
 void Processor::ProcessStart(const Event &event) {
     PrintStart(event.time, event.product_id, event.product_level, event.machine_id);
 
+    RemoveProductFromMachine(event.machine_id);
+
     const long long finish_time = event.time + time_matrix_[event.product_level][event.machine_id];
+
+    machines_[event.machine_id].busy_until = finish_time;
     AddEvent(finish_time, EventType::FINISH, event.product_level, event.product_id, event.machine_id);
 }
 
 void Processor::ProcessFinish(const Event &event) {
     PrintFinish(event.time, event.product_id, event.product_level, event.machine_id);
-
-    RemoveProductFromMachine(event.machine_id);
 
     ScheduleNextOnMachine(event.machine_id, event.time);
 
@@ -160,23 +162,29 @@ void Processor::ScheduleNextOnMachine(const int machine_id, const long long curr
 
 void Processor::RouteFinishedProduct(const Event &event) {
     if (event.product_level == type_count_ - 2) {
-        AddEvent(event.time, EventType::READY, event.product_level + 1, event.product_id, event.machine_id);
+        ProcessReady(event);
     } else {
         const int next_level = event.product_level + 1;
         const int best_machine = FindBestMachine();
+
+        const bool is_machine_free = (machines_[best_machine].busy_until <= event.time);
         const auto current_queue_size = static_cast<int>(machines_[best_machine].products.size());
 
         AddProductToMachine(best_machine, next_level, event.product_id);
-        AddEvent(event.time, EventType::WAIT, next_level, event.product_id, best_machine, current_queue_size);
+
+        const Event tmp_event = {
+            event.time, EventType::FINISH, next_level, event.product_id, best_machine, current_queue_size};
+
+        if (is_machine_free && current_queue_size == 0) {
+            ProcessStart(tmp_event);
+        } else {
+            ProcessWait(tmp_event);
+        }
     }
 }
 
 void Processor::ProcessWait(const Event &event) {
     PrintWait(event.time, event.product_id, event.product_level, event.machine_id, event.queue_size);
-
-    if (event.queue_size == 0) {
-        AddEvent(event.time, EventType::START, event.product_level, event.product_id, event.machine_id);
-    }
 }
 
 void Processor::ProcessReady(const Event &event) {

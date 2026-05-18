@@ -34,6 +34,7 @@ struct Product {
 struct Machine {
     std::queue<Product> products;
     long long product_sum_time = 0;
+    long long busy_until = 0;
 };
 
 class Processor {
@@ -54,7 +55,7 @@ private:
     void ProcessStart(const Event &event);
     void ProcessFinish(const Event &event);
     void ProcessReady(const Event &event);
-    void ProcessWait(const Event &event);
+    static void ProcessWait(const Event &event);
 
     [[nodiscard]] int FindBestMachine() const;
 
